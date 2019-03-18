@@ -1,13 +1,13 @@
 package eu.fabiool.cnpj.file.parsing.lib;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-@SpringBootApplication
 public class CnpjFileParsingLibApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CnpjFileParsingLibApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        final Path zipFile = Paths.get(args[0]);
+        final Path outputFolder = Paths.get(args[1]);
+        CnpjFileParser.getParser(zipFile, outputFolder).run();
+    }
 }
