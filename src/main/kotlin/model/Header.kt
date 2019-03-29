@@ -10,13 +10,13 @@ class Header constructor(): InfoCnpj {
 
     val LOGGER : Logger = Logger.getLogger(javaClass.toString())
 
-    private var registryType : Char? = null
+    private var tipoDoRegistro : Char? = null
     private lateinit var filler01 : String
-    private lateinit var fileName : String
-    private lateinit var recordDate : Date
-    private var shippingNumber : Int = -1
+    private lateinit var nomeDoArquivo : String
+    private lateinit var dataDeGravacao : Date
+    private var numeroDaRemessa : Int = -1
     private lateinit var filler02 : String
-    private var registryEnd : Char? = null
+    private var fimDeRegistro : Char? = null
 
     @Throws(ParseException::class)
     fun parse(source : ByteArray) : Header {
@@ -32,16 +32,16 @@ class Header constructor(): InfoCnpj {
         )
     }
 
-    private constructor(registryType: Char, filler01 : String,
-                        fileName : String, recordDate : Date,
-                        shippingNumber : Int, filler02: String,
-                        registryEnd : Char) : this() {
-        this.registryType = registryType
+    private constructor(tipoDoRegistro: Char, filler01 : String,
+                        nomeDoArquivo : String, dataDeGravacao : Date,
+                        numeroDaRemessa : Int, filler02: String,
+                        fimDeRegistro : Char) : this() {
+        this.tipoDoRegistro = tipoDoRegistro
         this.filler01 = filler01
-        this.fileName = fileName
-        this.recordDate = recordDate
-        this.shippingNumber = shippingNumber
+        this.nomeDoArquivo = nomeDoArquivo
+        this.dataDeGravacao = dataDeGravacao
+        this.numeroDaRemessa = numeroDaRemessa
         this.filler02 = filler02
-        this.registryEnd = registryEnd
+        this.fimDeRegistro = fimDeRegistro
     }
 }
