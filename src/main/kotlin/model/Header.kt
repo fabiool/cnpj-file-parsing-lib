@@ -3,8 +3,13 @@ package model
 import java.text.ParseException
 import java.util.*
 import java.util.Arrays.copyOfRange
+import java.util.logging.Level
+import java.util.logging.Logger
 
 class Header constructor(): InfoCnpj {
+
+    val LOGGER : Logger = Logger.getLogger(javaClass.toString())
+
     private var registryType : Char? = null
     private lateinit var filler01 : String
     private lateinit var fileName : String
@@ -15,6 +20,7 @@ class Header constructor(): InfoCnpj {
 
     @Throws(ParseException::class)
     fun parse(source : ByteArray) : Header {
+
         return Header(
             String(copyOfRange(source, 0, 1))[0],
                 String(copyOfRange(source, 0, 17)),

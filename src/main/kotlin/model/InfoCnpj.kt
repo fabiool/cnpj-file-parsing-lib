@@ -10,10 +10,11 @@ interface InfoCnpj {
 
     @Throws(ParseException::class)
     fun parseDate(source : ByteArray) : Date {
-        return SimpleDateFormat(PATTERN).parse(source.toString())
+        val sdf = SimpleDateFormat(PATTERN, Locale.getDefault())
+        return sdf.parse(String(source))
     }
 
-    fun parseInt(source: ByteArray) : Int {return Integer.parseInt(source.toString())}
+    fun parseInt(source: ByteArray) : Int {return Integer.parseInt(String(source))}
 
-    fun parseLong(source: ByteArray) : Long {return (source.toString()).toLong()}
+    fun parseLong(source: ByteArray) : Long {return (String(source).toLong())}
 }

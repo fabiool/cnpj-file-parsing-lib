@@ -1,3 +1,4 @@
+import model.Header
 import model.InfoCnpj
 import model.RecordFactory
 import java.io.FileInputStream
@@ -6,9 +7,9 @@ import java.text.ParseException
 import java.util.logging.Level
 import java.util.logging.Logger
 
-class CnpjFileParser : Runnable {
+class CnpjFileParser constructor() : Runnable {
 
-    val LOGGER : Logger = Logger.getLogger(CnpjFileParsingLibApplication::class.simpleName)
+    val LOGGER : Logger = Logger.getLogger(javaClass.toString())
 
     val RECORD_SIZE_BYTES : Int = 1200
 
@@ -19,20 +20,18 @@ class CnpjFileParser : Runnable {
     lateinit var outputFolder : Path
 
 
-    constructor(dataFile : Path, outputFolder : Path) {
+    constructor(dataFile : Path, outputFolder : Path) : this() {
         this.dataFile = dataFile
         this.outputFolder = outputFolder
     }
 
-    companion object {
-        fun getParser(dataFile : Path, outputFolder : Path) : CnpjFileParser {
+    fun getParser(dataFile : Path, outputFolder : Path) : CnpjFileParser {
 
-            if(!dataFile.toFile().exists() || !dataFile.toFile().canRead()) {
-                throw  IllegalArgumentException(String.format("Can´t read from %s", dataFile.toAbsolutePath().toString()))
-            }
-            outputFolder.toFile().mkdirs()
-            return CnpjFileParser(dataFile, outputFolder)
+        if(!dataFile.toFile().exists() || !dataFile.toFile().canRead()) {
+            throw  IllegalArgumentException(String.format("Can´t read from %s", dataFile.toAbsolutePath().toString()))
         }
+        outputFolder.toFile().mkdirs()
+        return CnpjFileParser(dataFile, outputFolder)
     }
 
     private fun getChunckSizeBytes() : Int { return  RECORD_SIZE_BYTES * CHUNK_RECORDS_COUNT }
@@ -46,9 +45,11 @@ class CnpjFileParser : Runnable {
             var readCount : Int = fis.read(buff)
 
             while (1200 == readCount) {
-                val infoCnpj : InfoCnpj = RecordFactory.getRecord(buff)
+                val infoCnpj : InfoCnpj = RecordFactory().getRecord(buff)
 
-
+                if(infoCnpj is Header) {
+                    LOGGER.log(Level.INFO, "Got a Header record")
+                }
                 readCount = fis.read(buff)
             }
 
