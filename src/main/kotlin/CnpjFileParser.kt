@@ -15,6 +15,8 @@ class CnpjFileParser constructor() : Runnable {
 
     val CHUNK_RECORDS_COUNT : Int = 1000
 
+    val BUFF_SIZE = 1202
+
     lateinit var dataFile : Path
 
     lateinit var outputFolder : Path
@@ -40,11 +42,11 @@ class CnpjFileParser constructor() : Runnable {
     override fun run() {
         try {
             val fis : FileInputStream = FileInputStream(dataFile.toFile())
-            val buff : ByteArray = ByteArray(1200)
+            val buff : ByteArray = ByteArray(BUFF_SIZE)
 
             var readCount : Int = fis.read(buff)
 
-            while (1200 == readCount) {
+            while (BUFF_SIZE == readCount) {
                 val infoCnpj : InfoCnpj = RecordFactory().getRecord(buff)
 
                 if(infoCnpj is Header) {
