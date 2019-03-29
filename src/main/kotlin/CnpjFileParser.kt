@@ -1,16 +1,14 @@
-import eu.fabiool.cnpj.file.parsing.lib.CnpjFileParsingLibApplication
+import model.InfoCnpj
+import model.RecordFactory
 import java.io.FileInputStream
-import java.lang.IllegalArgumentException
 import java.nio.file.Path
 import java.text.ParseException
 import java.util.logging.Level
 import java.util.logging.Logger
-import java.util.zip.ZipEntry
-import java.util.zip.ZipInputStream
 
 class CnpjFileParser : Runnable {
 
-    val LOGGER : Logger = Logger.getLogger(CnpjFileParsingLibApplication::class.java.name)
+    val LOGGER : Logger = Logger.getLogger(CnpjFileParsingLibApplication::class.simpleName)
 
     val RECORD_SIZE_BYTES : Int = 1200
 
@@ -48,6 +46,9 @@ class CnpjFileParser : Runnable {
             var readCount : Int = fis.read(buff)
 
             while (1200 == readCount) {
+                val infoCnpj : InfoCnpj = RecordFactory.getRecord(buff)
+
+
                 readCount = fis.read(buff)
             }
 
