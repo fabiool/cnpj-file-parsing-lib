@@ -13,13 +13,13 @@ class DadosCadastrais constructor(): InfoCnpj {
     private lateinit var razaoSocial: String
     private lateinit var nomeFantasia: String
     private lateinit var situacaoCadastral: String
-    private lateinit var dataSituacaoCadastral: Date
+    private var dataSituacaoCadastral: Date? = null
     private lateinit var motivoSituacaoCadastral: String
     private lateinit var nomeCidadeExterior: String
     private lateinit var codigoPais: String
     private lateinit var nomePais: String
     private lateinit var codigoNaturezaJuridica: String
-    private lateinit var dataInicioAtividade: Date
+    private var dataInicioAtividade: Date? = null
     private lateinit var cnaeFiscal: String
     private lateinit var descricaoTipoLogradouro: String
     private lateinit var logradouro: String
@@ -44,11 +44,11 @@ class DadosCadastrais constructor(): InfoCnpj {
     private lateinit var capitalSocial: String
     private lateinit var porteEmpresa: String
     private var opcaoSimples: Char? = null
-    private lateinit var dataOpcaoSimples: Date
-    private lateinit var dataExclusaoSimples: Date
+    private var dataOpcaoSimples: Date? = null
+    private var dataExclusaoSimples: Date? = null
     private var opcaoMei: Char? = null
     private lateinit var situaçãoEspecial: String
-    private lateinit var dataSituaçãoEspecial: Date
+    private var dataSituaçãoEspecial: Date? = null
     private lateinit var filler: String
     private var fimDeRegistro: Char? = null
 
@@ -63,13 +63,13 @@ class DadosCadastrais constructor(): InfoCnpj {
                 String(copyOfRange(source, 18, 168)),
                 String(copyOfRange(source, 168, 223)),
                 String(copyOfRange(source, 223, 225)),
-                parseDate(copyOfRange(source, 225, 233)),
+                if (shouldParseDate(copyOfRange(source, 225, 233))) parseDate(copyOfRange(source, 225, 233)) else null,
                 String(copyOfRange(source, 233, 235)),
                 String(copyOfRange(source, 235, 290)),
                 String(copyOfRange(source, 290, 293)),
                 String(copyOfRange(source, 293, 363)),
                 String(copyOfRange(source, 363, 367)),
-                parseDate(copyOfRange(source, 367, 375)),
+                if (shouldParseDate(copyOfRange(source, 367, 375))) parseDate(copyOfRange(source, 367, 375)) else null,
                 String(copyOfRange(source, 375, 382)),
                 String(copyOfRange(source, 382, 402)),
                 String(copyOfRange(source, 402, 462)),
@@ -94,61 +94,61 @@ class DadosCadastrais constructor(): InfoCnpj {
                 String(copyOfRange(source, 927, 941)),
                 String(copyOfRange(source, 941, 943)),
                 String(copyOfRange(source, 943, 944))[0],
-                parseDate(copyOfRange(source, 944, 952)),
-                parseDate(copyOfRange(source, 952, 960)),
+                if (shouldParseDate(copyOfRange(source, 944, 952))) parseDate(copyOfRange(source, 944, 952)) else null,
+                if (shouldParseDate(copyOfRange(source, 952, 960))) parseDate(copyOfRange(source, 952, 960)) else null,
                 String(copyOfRange(source, 960, 961))[0],
                 String(copyOfRange(source, 961, 984)),
-                parseDate(copyOfRange(source, 984, 992)),
+                if (shouldParseDate(copyOfRange(source, 984, 992))) parseDate(copyOfRange(source, 984, 992)) else null,
                 String(copyOfRange(source, 992, 1199)),
                 String(copyOfRange(source, 1199, 1200))[0]
         )
     }
 
     constructor(tipoDoRegistro: Char,
-                                indicadorFullDiario: Char,
-                                tipoAtualização: Char,
-                                cnpj: String,
-                                indetificadorMatrizFilial: Char,
-                                razaoSocial: String,
-                                nomeFantasia: String,
-                                situacaoCadastral: String,
-                                dataSituacaoCadastral: Date,
-                                motivoSituacaoCadastral: String,
-                                nomeCidadeExterior: String, codigoPais:
+                indicadorFullDiario: Char,
+                tipoAtualização: Char,
+                cnpj: String,
+                indetificadorMatrizFilial: Char,
+                razaoSocial: String,
+                nomeFantasia: String,
+                situacaoCadastral: String,
+                dataSituacaoCadastral: Date?,
+                motivoSituacaoCadastral: String,
+                nomeCidadeExterior: String, codigoPais:
                                 String, nomePais: String,
-                                codigoNaturezaJuridica: String,
-                                dataInicioAtividade: Date,
-                                cnaeFiscal: String,
-                                descricaoTipoLogradouro: String,
-                                logradouro: String,
-                                numero: String,
-                                complemento: String,
-                                bairro: String,
-                                cep: String,
-                                uf: String,
-                                codigoMunicipio: String,
-                                municipio: String,
-                                dddTelefone1: String,
-                                ddd1: String,
-                                telefone1: String,
-                                dddTelefone2: String,
-                                ddd2: String,
-                                telefone2: String,
-                                dddFax: String,
-                                numeroDddFax: String,
-                                numeroFax: String,
-                                correioEletronico: String,
-                                qualificacaoResponsavel: String,
-                                capitalSocial: String,
-                                porteEmpresa: String,
-                                opcaoSimples: Char,
-                                dataOpcaoSimples: Date,
-                                dataExclusaoSimples: Date,
-                                opcaoMei: Char,
-                                situaçãoEspecial: String,
-                                dataSituaçãoEspecial: Date,
-                                filler: String,
-                                fimDeRegistro: Char) : this(){
+                codigoNaturezaJuridica: String,
+                dataInicioAtividade: Date?,
+                cnaeFiscal: String,
+                descricaoTipoLogradouro: String,
+                logradouro: String,
+                numero: String,
+                complemento: String,
+                bairro: String,
+                cep: String,
+                uf: String,
+                codigoMunicipio: String,
+                municipio: String,
+                dddTelefone1: String,
+                ddd1: String,
+                telefone1: String,
+                dddTelefone2: String,
+                ddd2: String,
+                telefone2: String,
+                dddFax: String,
+                numeroDddFax: String,
+                numeroFax: String,
+                correioEletronico: String,
+                qualificacaoResponsavel: String,
+                capitalSocial: String,
+                porteEmpresa: String,
+                opcaoSimples: Char,
+                dataOpcaoSimples: Date?,
+                dataExclusaoSimples: Date?,
+                opcaoMei: Char,
+                situaçãoEspecial: String,
+                dataSituaçãoEspecial: Date?,
+                filler: String,
+                fimDeRegistro: Char) : this(){
         this.tipoDoRegistro = tipoDoRegistro
         this.indicadorFullDiario = indicadorFullDiario
         this.tipoAtualização = tipoAtualização
@@ -195,6 +195,15 @@ class DadosCadastrais constructor(): InfoCnpj {
         this.dataSituaçãoEspecial = dataSituaçãoEspecial
         this.filler = filler
         this.fimDeRegistro = fimDeRegistro
+    }
+
+    fun shouldParseDate(source : ByteArray) : Boolean {
+        var answer = false
+        for (byte in source) {
+            if (byte != 32.toByte())
+                answer = true
+        }
+        return answer
     }
 
 }

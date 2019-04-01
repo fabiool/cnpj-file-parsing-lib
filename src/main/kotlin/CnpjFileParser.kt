@@ -1,3 +1,5 @@
+import com.sun.javafx.binding.StringFormatter
+import model.DadosCadastrais
 import model.Header
 import model.InfoCnpj
 import model.RecordFactory
@@ -42,16 +44,23 @@ class CnpjFileParser constructor() : Runnable {
     override fun run() {
         try {
             val fis : FileInputStream = FileInputStream(dataFile.toFile())
-            val buff : ByteArray = ByteArray(BUFF_SIZE)
+            var buff : ByteArray = ByteArray(BUFF_SIZE)
 
             var readCount : Int = fis.read(buff)
 
+            var count : Int = 0
+
             while (BUFF_SIZE == readCount) {
+                LOGGER.log(Level.INFO, String.format("Iteration %s ", count++.toString()))
+
                 val infoCnpj : InfoCnpj = RecordFactory().getRecord(buff)
 
                 if(infoCnpj is Header) {
                     LOGGER.log(Level.INFO, "Got a Header record")
+                } else if (infoCnpj is DadosCadastrais) {
+                    LOGGER.log(Level.INFO, "Got a DadosCadastrais record")
                 }
+
                 readCount = fis.read(buff)
             }
 
