@@ -1,6 +1,8 @@
 package model
 
+import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import java.util.*
+import java.util.logging.Level
 
 class CnaeSecundaria constructor(): InfoCnpj {
 
@@ -13,6 +15,9 @@ class CnaeSecundaria constructor(): InfoCnpj {
     private var fimDeRegistro: Char? = null
 
     fun parse(source: ByteArray): CnaeSecundaria {
+
+        LOGGER.log(Level.INFO, "Trying to parse CnaeSecundaria instance")
+
         return CnaeSecundaria(
                 String(Arrays.copyOfRange(source, 0, 1))[0],
                 String(Arrays.copyOfRange(source, 1, 2))[0],

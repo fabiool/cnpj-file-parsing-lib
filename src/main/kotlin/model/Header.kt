@@ -21,6 +21,8 @@ class Header constructor(): InfoCnpj {
     @Throws(ParseException::class)
     fun parse(source : ByteArray) : Header {
 
+        LOGGER.log(Level.INFO, "Trying to parse Header instance")
+
         return Header(
             String(copyOfRange(source, 0, 1))[0],
                 String(copyOfRange(source, 0, 17)),

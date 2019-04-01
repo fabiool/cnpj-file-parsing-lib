@@ -1,6 +1,8 @@
 package model
 
+import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import java.util.Arrays.copyOfRange
+import java.util.logging.Level
 
 class Trailler constructor() : InfoCnpj {
     private var tipoDoRegistro: Char? = null
@@ -13,6 +15,8 @@ class Trailler constructor() : InfoCnpj {
     private var fimDeRegistro: Char? = null
 
     fun parse(source: ByteArray): Trailler {
+
+        LOGGER.log(Level.INFO, "Trying to parse Trailler instance")
 
         return Trailler(
                 String(copyOfRange(source, 0, 1))[0],

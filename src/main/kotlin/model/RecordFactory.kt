@@ -1,7 +1,9 @@
 package model
 
+import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import java.lang.IllegalArgumentException
 import java.text.ParseException
+import java.util.logging.Level
 
 class RecordFactory {
 

@@ -1,8 +1,10 @@
 package model
 
+import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import java.text.ParseException
 import java.util.*
 import java.util.Arrays.copyOfRange
+import java.util.logging.Level
 
 class DadosCadastrais constructor(): InfoCnpj {
     private var tipoDoRegistro: Char? = null
@@ -54,6 +56,9 @@ class DadosCadastrais constructor(): InfoCnpj {
 
     @Throws(ParseException::class)
     fun parse(source : ByteArray) : DadosCadastrais {
+
+        LOGGER.log(Level.INFO, String.format("Trying to parse DadosCadastrais instance - %s - %s", String(copyOfRange(source, 18, 168)), String(copyOfRange(source, 944, 952))))
+
         return DadosCadastrais(
                 String(copyOfRange(source, 0, 1))[0],
                 String(copyOfRange(source, 1, 2))[0],
@@ -81,25 +86,25 @@ class DadosCadastrais constructor(): InfoCnpj {
                 String(copyOfRange(source, 684, 688)),
                 String(copyOfRange(source, 688, 738)),
                 String(copyOfRange(source, 738, 750)),
+                String(copyOfRange(source, 738, 742)),
+                String(copyOfRange(source, 742, 750)),
+                String(copyOfRange(source, 750, 762)),
                 String(copyOfRange(source, 750, 754)),
                 String(copyOfRange(source, 754, 762)),
                 String(copyOfRange(source, 762, 774)),
-                String(copyOfRange(source, 774, 778)),
-                String(copyOfRange(source, 778, 786)),
-                String(copyOfRange(source, 786, 798)),
-                String(copyOfRange(source, 798, 802)),
-                String(copyOfRange(source, 802, 810)),
-                String(copyOfRange(source, 810, 925)),
-                String(copyOfRange(source, 925, 927)),
-                String(copyOfRange(source, 927, 941)),
-                String(copyOfRange(source, 941, 943)),
-                String(copyOfRange(source, 943, 944))[0],
-                if (shouldParseDate(copyOfRange(source, 944, 952))) parseDate(copyOfRange(source, 944, 952)) else null,
-                if (shouldParseDate(copyOfRange(source, 952, 960))) parseDate(copyOfRange(source, 952, 960)) else null,
-                String(copyOfRange(source, 960, 961))[0],
-                String(copyOfRange(source, 961, 984)),
-                if (shouldParseDate(copyOfRange(source, 984, 992))) parseDate(copyOfRange(source, 984, 992)) else null,
-                String(copyOfRange(source, 992, 1199)),
+                String(copyOfRange(source, 762, 766)),
+                String(copyOfRange(source, 766, 774)),
+                String(copyOfRange(source, 774, 889)),
+                String(copyOfRange(source, 891, 905)),
+                String(copyOfRange(source, 905, 907)),
+                String(copyOfRange(source, 907, 908)),
+                String(copyOfRange(source, 907, 908))[0],
+                if (shouldParseDate(copyOfRange(source, 909, 916))) parseDate(copyOfRange(source, 909, 916)) else null,
+                if (shouldParseDate(copyOfRange(source, 916, 924))) parseDate(copyOfRange(source, 916, 924)) else null,
+                String(copyOfRange(source, 924, 925))[0],
+                String(copyOfRange(source, 925, 948)),
+                if (shouldParseDate(copyOfRange(source, 949, 956))) parseDate(copyOfRange(source, 949, 956)) else null,
+                String(copyOfRange(source, 956, 1199)),
                 String(copyOfRange(source, 1199, 1200))[0]
         )
     }

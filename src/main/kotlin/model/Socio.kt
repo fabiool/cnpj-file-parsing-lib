@@ -1,6 +1,8 @@
 package model
 
+import com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER
 import java.util.Arrays.copyOfRange
+import java.util.logging.Level
 
 class Socio constructor() : InfoCnpj {
     private var tipoDoRegistro: Char? = null
@@ -22,6 +24,9 @@ class Socio constructor() : InfoCnpj {
     private var fimDeRegistro: Char? = null
 
     fun parse(source: ByteArray) : Socio {
+
+        LOGGER.log(Level.INFO, String.format("Trying to parse Socio instance - %s ", String(copyOfRange(source, 18, 168))))
+
         return Socio(
                 String(copyOfRange(source, 0, 1))[0],
                 String(copyOfRange(source, 1, 2))[0],

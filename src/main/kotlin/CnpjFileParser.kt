@@ -1,8 +1,4 @@
-import com.sun.javafx.binding.StringFormatter
-import model.DadosCadastrais
-import model.Header
-import model.InfoCnpj
-import model.RecordFactory
+import model.*
 import java.io.FileInputStream
 import java.nio.file.Path
 import java.text.ParseException
@@ -59,6 +55,10 @@ class CnpjFileParser constructor() : Runnable {
                     LOGGER.log(Level.INFO, "Got a Header record")
                 } else if (infoCnpj is DadosCadastrais) {
                     LOGGER.log(Level.INFO, "Got a DadosCadastrais record")
+                } else if (infoCnpj is Socio) {
+                    LOGGER.log(Level.INFO, "Got a Socio record")
+                } else if (infoCnpj is CnaeSecundaria) {
+                    LOGGER.log(Level.INFO, "Got a CnaeSecundaria record")
                 }
 
                 readCount = fis.read(buff)
