@@ -5,23 +5,23 @@ import java.util.Arrays.copyOfRange
 import java.util.logging.Level
 
 class Socio constructor() : InfoCnpj {
-    private var tipoDoRegistro: Char? = null
-    private var indicadorFullDiario: Char? = null
-    private var tipoAtualização: Char? = null
-    private lateinit var cnpj: String
-    private var identificadorDeSocio: Char? = null
-    private lateinit var nomeSocio: String
-    private lateinit var cnpjCpf: String
-    private lateinit var qualificacaoSocio: String
-    private lateinit var percentualCapitalSocial: String
-    private lateinit var dataEntradaSociedade: String
-    private lateinit var codigoPais: String
-    private lateinit var nomePaisSocio: String
-    private lateinit var cpfRepresentanteLegal: String
-    private lateinit var nomeRepresentante: String
-    private lateinit var qualificacaoRepresentante: String
-    private lateinit var filler: String
-    private var fimDeRegistro: Char? = null
+    var tipoDoRegistro: Char? = null
+    var indicadorFullDiario: Char? = null
+    var tipoAtualização: Char? = null
+    lateinit var cnpj: String
+    var identificadorDeSocio: Char? = null
+    lateinit var nomeSocio: String
+    lateinit var cnpjCpf: String
+    lateinit var qualificacaoSocio: String
+    lateinit var percentualCapitalSocial: String
+    lateinit var dataEntradaSociedade: String
+    lateinit var codigoPais: String
+    lateinit var nomePaisSocio: String
+    lateinit var cpfRepresentanteLegal: String
+    lateinit var nomeRepresentante: String
+    lateinit var qualificacaoRepresentante: String
+    lateinit var filler: String
+    var fimDeRegistro: Char? = null
 
     fun parse(source: ByteArray) : Socio {
 

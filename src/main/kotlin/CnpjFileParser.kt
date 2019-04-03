@@ -1,4 +1,6 @@
 import model.*
+import org.apache.commons.collections4.MultiMap
+import org.apache.commons.collections4.map.MultiValueMap
 import java.io.FileInputStream
 import java.nio.file.Path
 import java.text.ParseException
@@ -39,6 +41,9 @@ class CnpjFileParser constructor() : Runnable {
 
     override fun run() {
         try {
+
+            val multiMap : MultiValueMap<String, String> = MultiValueMap()
+
             val fis : FileInputStream = FileInputStream(dataFile.toFile())
             var buff : ByteArray = ByteArray(BUFF_SIZE)
 
@@ -56,8 +61,10 @@ class CnpjFileParser constructor() : Runnable {
                 } else if (dataParsed is DadosCadastrais) {
                     LOGGER.log(Level.INFO, "Got a DadosCadastrais record")
                     CsvWriter().writeDataToCsv(outputFolder, dataParsed)
+                    multiMap.put(dataParsed.uf, dataParsed.cnpj)
                 } else if (dataParsed is Socio) {
                     LOGGER.log(Level.INFO, "Got a Socio record")
+                    CsvWriter().writeDataToCsv(outputFolder, dataParsed, multiMap)
                 } else if (dataParsed is CnaeSecundaria) {
                     LOGGER.log(Level.INFO, "Got a CnaeSecundaria record")
                 }

@@ -1,5 +1,8 @@
 import com.sun.xml.internal.ws.spi.db.BindingContextFactory
+import enums.RegistryType
 import model.DadosCadastrais
+import model.Socio
+import org.apache.commons.collections4.map.MultiValueMap
 import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -7,7 +10,8 @@ import java.util.logging.Level
 
 class CsvWriter {
 
-    private val OUTPUT_FILE_NAME : String = "dados_cadastrais.csv"
+    private val DADOS_CADASTRAIS_OUTPUT_FILE_NAME : String = "dados_cadastrais.csv"
+    private val SOCIO_OUTPUT_FILE : String = "socio.csv"
 
     fun writeDataToCsv(path : Path, dataParsed: DadosCadastrais) {
         try {
@@ -18,7 +22,7 @@ class CsvWriter {
             for (field in dataParsed::class.java.declaredFields)
                 declaredFields += field.name + ","
 
-            var outputFile = File(handleOutputFile(outputFolder, declaredFields).toString())
+            var outputFile = File(handleOutputFile(outputFolder, declaredFields, RegistryType.DADOS_CADASTRAIS).toString())
 
             outputFile.appendText("${dataParsed.tipoDoRegistro.toString()},")
             outputFile.appendText("${dataParsed.indicadorFullDiario.toString()},")
@@ -74,6 +78,46 @@ class CsvWriter {
         }
 
     }
+    fun writeDataToCsv(path : Path, dataParsed: Socio, multiMap : MultiValueMap<String, String>) {
+        try {
+
+            var outputFolder : Path? = null
+            for (key in multiMap.keys) {
+                if(multiMap.containsValue(key, dataParsed.cnpj)){
+                    outputFolder = handleOutputFolder(path, key)
+                    break
+                }
+            }
+
+            var declaredFields : String = ""
+            for (field in dataParsed::class.java.declaredFields)
+                declaredFields += field.name + ","
+
+            var outputFile = File(handleOutputFile(outputFolder!!, declaredFields, RegistryType.SOCIO).toString())
+
+            outputFile.appendText("${dataParsed.tipoDoRegistro},")
+            outputFile.appendText("${dataParsed.indicadorFullDiario},")
+            outputFile.appendText("${dataParsed.tipoAtualização},")
+            outputFile.appendText("${dataParsed.cnpj},")
+            outputFile.appendText("${dataParsed.identificadorDeSocio},")
+            outputFile.appendText("${dataParsed.nomeSocio},")
+            outputFile.appendText("${dataParsed.cnpjCpf},")
+            outputFile.appendText("${dataParsed.qualificacaoSocio},")
+            outputFile.appendText("${dataParsed.percentualCapitalSocial},")
+            outputFile.appendText("${dataParsed.dataEntradaSociedade},")
+            outputFile.appendText("${dataParsed.codigoPais},")
+            outputFile.appendText("${dataParsed.nomePaisSocio},")
+            outputFile.appendText("${dataParsed.cpfRepresentanteLegal},")
+            outputFile.appendText("${dataParsed.nomeRepresentante},")
+            outputFile.appendText("${dataParsed.qualificacaoRepresentante},")
+            outputFile.appendText("${dataParsed.filler},")
+            outputFile.appendText("${dataParsed.fimDeRegistro}")
+
+        } catch (e: Exception){
+            BindingContextFactory.LOGGER.log(Level.SEVERE, String.format("Could not create file - %s ", e.toString()))
+        }
+
+    }
 
     private fun handleOutputFolder(path : Path, filter : String) : Path{
         val file = File("$path/$filter")
@@ -83,14 +127,26 @@ class CsvWriter {
         return Paths.get("$path/$filter")
     }
 
-    private fun handleOutputFile(outputFolder : Path, declaredFields : String) : Path {
-        val file = File("$outputFolder/$OUTPUT_FILE_NAME")
+    private fun handleOutputFile(outputFolder : Path, declaredFields : String, registryType : RegistryType) : Path {
+
+        var fileName : String? = null
+
+        when (registryType) {
+            RegistryType.DADOS_CADASTRAIS -> fileName = DADOS_CADASTRAIS_OUTPUT_FILE_NAME
+            RegistryType.SOCIO -> fileName = SOCIO_OUTPUT_FILE
+            else -> {
+                throw IllegalArgumentException("Unknown type of registry")
+            }
+
+        }
+
+        val file = File("$outputFolder/$fileName")
         if(file.createNewFile()) {
             file.writeText(declaredFields)
             file.appendText('\n'.toString())
         } else {
             file.appendText('\n'.toString())
         }
-        return (Paths.get("$outputFolder/$OUTPUT_FILE_NAME"))
+        return (Paths.get("$outputFolder/$fileName"))
     }
 }
