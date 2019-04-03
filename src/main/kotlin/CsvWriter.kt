@@ -1,7 +1,6 @@
 import com.sun.xml.internal.ws.spi.db.BindingContextFactory
 import model.DadosCadastrais
 import java.io.File
-import java.io.FileWriter
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.logging.Level
@@ -76,18 +75,20 @@ class CsvWriter {
 
     }
 
-    fun handleOutputFolder(path : Path, filter : String) : Path{
-        val file = File("${path}/$filter")
+    private fun handleOutputFolder(path : Path, filter : String) : Path{
+        val file = File("$path/$filter")
         if(!file.exists()) {
             file.mkdirs()
         }
-        return Paths.get("${path}/$filter")
+        return Paths.get("$path/$filter")
     }
 
-    fun handleOutputFile(outputFolder : Path, declaredFields : String) : Path {
+    private fun handleOutputFile(outputFolder : Path, declaredFields : String) : Path {
         val file = File("$outputFolder/$OUTPUT_FILE_NAME")
         if(file.createNewFile()) {
             file.writeText(declaredFields)
+            file.appendText('\n'.toString())
+        } else {
             file.appendText('\n'.toString())
         }
         return (Paths.get("$outputFolder/$OUTPUT_FILE_NAME"))
