@@ -51,7 +51,6 @@ class CsvWriter {
             outputFile.appendText("${dataParsed.municipio},")
             outputFile.appendText("${dataParsed.dddTelefone1},")
             outputFile.appendText("${dataParsed.ddd1},")
-            outputFile.appendText("${dataParsed.toString()},")
             outputFile.appendText("${dataParsed.telefone1},")
             outputFile.appendText("${dataParsed.dddTelefone2},")
             outputFile.appendText("${dataParsed.ddd2},")
@@ -63,14 +62,14 @@ class CsvWriter {
             outputFile.appendText("${dataParsed.qualificacaoResponsavel},")
             outputFile.appendText("${dataParsed.capitalSocial},")
             outputFile.appendText("${dataParsed.porteEmpresa},")
-            outputFile.appendText("${dataParsed.opcaoSimples.toString()},")
+            outputFile.appendText("${dataParsed.opcaoSimples},")
             outputFile.appendText("${dataParsed.dataOpcaoSimples.toString()},")
             outputFile.appendText("${dataParsed.dataExclusaoSimples.toString()},")
             outputFile.appendText("${dataParsed.opcaoMei.toString()},")
             outputFile.appendText("${dataParsed.situaçãoEspecial},")
-            outputFile.appendText("${dataParsed.dataSituaçãoEspecial.toString()},")
+            outputFile.appendText("${dataParsed.dataSituaçãoEspecial},")
             outputFile.appendText("${dataParsed.filler},")
-            outputFile.appendText("${dataParsed.fimDeRegistro.toString()}")
+            outputFile.appendText("${dataParsed.fimDeRegistro}")
 
 
         } catch (e: Exception){
