@@ -7,52 +7,52 @@ import java.util.Arrays.copyOfRange
 import java.util.logging.Level
 
 class DadosCadastrais constructor(): InfoCnpj {
-    private var tipoDoRegistro: Char? = null
-    private var indicadorFullDiario: Char? = null
-    private var tipoAtualização: Char? = null
-    private lateinit var cnpj: String
-    private var indetificadorMatrizFilial: Char? = null
-    private lateinit var razaoSocial: String
-    private lateinit var nomeFantasia: String
-    private lateinit var situacaoCadastral: String
-    private var dataSituacaoCadastral: Date? = null
-    private lateinit var motivoSituacaoCadastral: String
-    private lateinit var nomeCidadeExterior: String
-    private lateinit var codigoPais: String
-    private lateinit var nomePais: String
-    private lateinit var codigoNaturezaJuridica: String
-    private var dataInicioAtividade: Date? = null
-    private lateinit var cnaeFiscal: String
-    private lateinit var descricaoTipoLogradouro: String
-    private lateinit var logradouro: String
-    private lateinit var numero: String
-    private lateinit var complemento: String
-    private lateinit var bairro: String
-    private lateinit var cep: String
-    private lateinit var uf: String
-    private lateinit var codigoMunicipio: String
-    private lateinit var municipio: String
-    private lateinit var dddTelefone1: String
-    private lateinit var ddd1: String
-    private lateinit var telefone1: String
-    private lateinit var dddTelefone2: String
-    private lateinit var ddd2: String
-    private lateinit var telefone2: String
-    private lateinit var dddFax: String
-    private lateinit var numeroDddFax: String
-    private lateinit var numeroFax: String
-    private lateinit var correioEletronico: String
-    private lateinit var qualificacaoResponsavel: String
-    private lateinit var capitalSocial: String
-    private lateinit var porteEmpresa: String
-    private var opcaoSimples: Char? = null
-    private var dataOpcaoSimples: Date? = null
-    private var dataExclusaoSimples: Date? = null
-    private var opcaoMei: Char? = null
-    private lateinit var situaçãoEspecial: String
-    private var dataSituaçãoEspecial: Date? = null
-    private lateinit var filler: String
-    private var fimDeRegistro: Char? = null
+    var tipoDoRegistro: Char? = null
+    var indicadorFullDiario: Char? = null
+    var tipoAtualização: Char? = null
+    lateinit var cnpj: String
+    var indetificadorMatrizFilial: Char? = null
+    lateinit var razaoSocial: String
+    lateinit var nomeFantasia: String
+    lateinit var situacaoCadastral: String
+    var dataSituacaoCadastral: Date? = null
+    lateinit var motivoSituacaoCadastral: String
+    lateinit var nomeCidadeExterior: String
+    lateinit var codigoPais: String
+    lateinit var nomePais: String
+    lateinit var codigoNaturezaJuridica: String
+    var dataInicioAtividade: Date? = null
+    lateinit var cnaeFiscal: String
+    lateinit var descricaoTipoLogradouro: String
+    lateinit var logradouro: String
+    lateinit var numero: String
+    lateinit var complemento: String
+    lateinit var bairro: String
+    lateinit var cep: String
+    lateinit var uf: String
+    lateinit var codigoMunicipio: String
+    lateinit var municipio: String
+    lateinit var dddTelefone1: String
+    lateinit var ddd1: String
+    lateinit var telefone1: String
+    lateinit var dddTelefone2: String
+    lateinit var ddd2: String
+    lateinit var telefone2: String
+    lateinit var dddFax: String
+    lateinit var numeroDddFax: String
+    lateinit var numeroFax: String
+    lateinit var correioEletronico: String
+    lateinit var qualificacaoResponsavel: String
+    lateinit var capitalSocial: String
+    lateinit var porteEmpresa: String
+    var opcaoSimples: Char? = null
+    var dataOpcaoSimples: Date? = null
+    var dataExclusaoSimples: Date? = null
+    var opcaoMei: Char? = null
+    lateinit var situaçãoEspecial: String
+    var dataSituaçãoEspecial: Date? = null
+    lateinit var filler: String
+    var fimDeRegistro: Char? = null
 
     @Throws(ParseException::class)
     fun parse(source : ByteArray) : DadosCadastrais {

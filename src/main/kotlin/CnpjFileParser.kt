@@ -49,15 +49,16 @@ class CnpjFileParser constructor() : Runnable {
             while (BUFF_SIZE == readCount) {
                 LOGGER.log(Level.INFO, String.format("Iteration %s ", count++.toString()))
 
-                val infoCnpj : InfoCnpj = RecordFactory().getRecord(buff)
+                val dataParsed  = RecordFactory().getRecord(buff)
 
-                if(infoCnpj is Header) {
+                if(dataParsed is Header) {
                     LOGGER.log(Level.INFO, "Got a Header record")
-                } else if (infoCnpj is DadosCadastrais) {
+                } else if (dataParsed is DadosCadastrais) {
                     LOGGER.log(Level.INFO, "Got a DadosCadastrais record")
-                } else if (infoCnpj is Socio) {
+                    CsvWriter().writeDataToCsv(outputFolder, dataParsed)
+                } else if (dataParsed is Socio) {
                     LOGGER.log(Level.INFO, "Got a Socio record")
-                } else if (infoCnpj is CnaeSecundaria) {
+                } else if (dataParsed is CnaeSecundaria) {
                     LOGGER.log(Level.INFO, "Got a CnaeSecundaria record")
                 }
 
