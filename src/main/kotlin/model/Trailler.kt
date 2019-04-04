@@ -5,14 +5,14 @@ import java.util.Arrays.copyOfRange
 import java.util.logging.Level
 
 class Trailler constructor() : InfoCnpj {
-    private var tipoDoRegistro: Char? = null
-    private lateinit var filler01: String
-    private var totalRegistrosT1: Int = -1
-    private var totalRegistrosT2: Int = -1
-    private var totalRegistrosT3: Int = -1
-    private var totalRegistros: Long = -1L
-    private lateinit var filler02: String
-    private var fimDeRegistro: Char? = null
+    var tipoDoRegistro: Char? = null
+    lateinit var filler01: String
+    var totalRegistrosT1: Int = -1
+    var totalRegistrosT2: Int = -1
+    var totalRegistrosT3: Int = -1
+    var totalRegistros: Long = -1L
+    lateinit var filler02: String
+    var fimDeRegistro: Char? = null
 
     fun parse(source: ByteArray): Trailler {
 

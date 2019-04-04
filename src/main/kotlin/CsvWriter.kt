@@ -1,7 +1,9 @@
 import com.sun.xml.internal.ws.spi.db.BindingContextFactory
 import enums.RegistryType
+import model.CnaeSecundaria
 import model.DadosCadastrais
 import model.Socio
+import model.Trailler
 import org.apache.commons.collections4.map.MultiValueMap
 import java.io.File
 import java.nio.file.Path
@@ -11,7 +13,10 @@ import java.util.logging.Level
 class CsvWriter {
 
     private val DADOS_CADASTRAIS_OUTPUT_FILE_NAME : String = "dados_cadastrais.csv"
-    private val SOCIO_OUTPUT_FILE : String = "socio.csv"
+    private val SOCIO_OUTPUT_FILE_NAME : String = "socio.csv"
+    private val CNAE_SECUNDARIA_OUTPUT_FILE_NAME = "cnae_secundaria.csv"
+    private val TRAILLER_OUTPUT_FOLDER_NAME = "trailer"
+    private val TRAILLER_OUTPUT_FILE_NAME = "trailer.csv"
 
     fun writeDataToCsv(path : Path, dataParsed: DadosCadastrais) {
         try {
@@ -117,6 +122,63 @@ class CsvWriter {
         }
 
     }
+    fun writeDataToCsv(path : Path, dataParsed: CnaeSecundaria, multiMap : MultiValueMap<String, String>) {
+        try {
+
+            var outputFolder : Path? = null
+            for (key in multiMap.keys) {
+                if(multiMap.containsValue(key, dataParsed.cnpj)){
+                    outputFolder = handleOutputFolder(path, key)
+                    break
+                }
+            }
+
+            var declaredFields : String = ""
+            for (field in dataParsed::class.java.declaredFields)
+                declaredFields += field.name + ","
+
+            var outputFile = File(handleOutputFile(outputFolder!!, declaredFields, RegistryType.CNAE_SECUNDARIA).toString())
+
+            outputFile.appendText("${dataParsed.tipoDoRegistro},")
+            outputFile.appendText("${dataParsed.indicadorFullDiario},")
+            outputFile.appendText("${dataParsed.tipoAtualização},")
+            outputFile.appendText("${dataParsed.cnpj},")
+            outputFile.appendText("${dataParsed.cnaeSecundaria},")
+            outputFile.appendText("${dataParsed.filler},")
+            outputFile.appendText("${dataParsed.fimDeRegistro}")
+
+
+        } catch (e: Exception){
+            BindingContextFactory.LOGGER.log(Level.SEVERE, String.format("Could not create file - %s ", e.toString()))
+        }
+
+    }
+    fun writeDataToCsv(path : Path, dataParsed: Trailler) {
+        try {
+
+            var outputFolder : Path? = handleOutputFolder(path, TRAILLER_OUTPUT_FOLDER_NAME)
+
+            var declaredFields : String = ""
+            for (field in dataParsed::class.java.declaredFields)
+                declaredFields += field.name + ","
+
+            var outputFile = File(handleOutputFile(outputFolder!!, declaredFields, RegistryType.TRAILLER).toString())
+
+            outputFile.appendText("${dataParsed.tipoDoRegistro},")
+            outputFile.appendText("${dataParsed.filler01},")
+            outputFile.appendText("${dataParsed.totalRegistrosT1},")
+            outputFile.appendText("${dataParsed.totalRegistrosT2},")
+            outputFile.appendText("${dataParsed.totalRegistrosT3},")
+            outputFile.appendText("${dataParsed.totalRegistros},")
+            outputFile.appendText("${dataParsed.filler02},")
+            outputFile.appendText("${dataParsed.fimDeRegistro}")
+
+
+        } catch (e: Exception){
+            BindingContextFactory.LOGGER.log(Level.SEVERE, String.format("Could not create file - %s ", e.toString()))
+        }
+
+    }
 
     private fun handleOutputFolder(path : Path, filter : String) : Path{
         val file = File("$path/$filter")
@@ -132,7 +194,9 @@ class CsvWriter {
 
         when (registryType) {
             RegistryType.DADOS_CADASTRAIS -> fileName = DADOS_CADASTRAIS_OUTPUT_FILE_NAME
-            RegistryType.SOCIO -> fileName = SOCIO_OUTPUT_FILE
+            RegistryType.SOCIO -> fileName = SOCIO_OUTPUT_FILE_NAME
+            RegistryType.CNAE_SECUNDARIA -> fileName = CNAE_SECUNDARIA_OUTPUT_FILE_NAME
+            RegistryType.TRAILLER -> fileName = TRAILLER_OUTPUT_FILE_NAME
             else -> {
                 throw IllegalArgumentException("Unknown type of registry")
             }

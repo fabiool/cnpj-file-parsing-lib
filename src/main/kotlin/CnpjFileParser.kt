@@ -58,15 +58,23 @@ class CnpjFileParser constructor() : Runnable {
 
                 if(dataParsed is Header) {
                     LOGGER.log(Level.INFO, "Got a Header record")
+
                 } else if (dataParsed is DadosCadastrais) {
                     LOGGER.log(Level.INFO, "Got a DadosCadastrais record")
                     CsvWriter().writeDataToCsv(outputFolder, dataParsed)
                     multiMap.put(dataParsed.uf, dataParsed.cnpj)
+
                 } else if (dataParsed is Socio) {
                     LOGGER.log(Level.INFO, "Got a Socio record")
                     CsvWriter().writeDataToCsv(outputFolder, dataParsed, multiMap)
+
                 } else if (dataParsed is CnaeSecundaria) {
                     LOGGER.log(Level.INFO, "Got a CnaeSecundaria record")
+                    CsvWriter().writeDataToCsv(outputFolder, dataParsed, multiMap)
+
+                } else if (dataParsed is Trailler) {
+                    LOGGER.log(Level.INFO, "Got a Trailler record")
+                    CsvWriter().writeDataToCsv(outputFolder, dataParsed)
                 }
 
                 readCount = fis.read(buff)

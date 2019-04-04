@@ -6,13 +6,13 @@ import java.util.logging.Level
 
 class CnaeSecundaria constructor(): InfoCnpj {
 
-    private var tipoDoRegistro: Char? = null
-    private var indicadorFullDiario: Char? = null
-    private var tipoAtualização: Char? = null
-    private lateinit var cnpj: String
-    private lateinit var cnaeSecundaria: String
-    private lateinit var filler: String
-    private var fimDeRegistro: Char? = null
+    var tipoDoRegistro: Char? = null
+    var indicadorFullDiario: Char? = null
+    var tipoAtualização: Char? = null
+    lateinit var cnpj: String
+    lateinit var cnaeSecundaria: String
+    lateinit var filler: String
+    var fimDeRegistro: Char? = null
 
     fun parse(source: ByteArray): CnaeSecundaria {
 
