@@ -36,3 +36,5 @@ fun main() {
 //    val stateIndex = stateIndexBuilder.buildCompositeIndex()
 //    management.setConsistency(stateIndex, ConsistencyModifier.LOCK)
 }
+
+

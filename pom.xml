@@ -70,7 +70,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>${project.basedir}/src/main/kotlin/CnpjFileParsingLibApplication.kt</mainClass>
+                                    <mainClass>${project.basedir}/src/main/kotlin/model/CnpjFileParsingLibApplication.kt</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
