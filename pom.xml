@@ -22,7 +22,6 @@
     </properties>
 
 	<build>
-        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -41,8 +40,8 @@
                         </goals>
                         <configuration>
                             <sourceDirs>
-                                <source>src/main/java</source>
-                                <source>src/main/kotlin</source>
+                                <source>${project.basedir}/src/main/java</source>
+                                <source>${project.basedir}/src/main/kotlin</source>
                             </sourceDirs>
                         </configuration>
                     </execution>
@@ -70,7 +69,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>${project.basedir}/src/main/kotlin/model/CnpjFileParsingLibApplication.kt</mainClass>
+                                    <mainClass>CnpjFileParsingLibApplicationKt</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
