@@ -17,16 +17,13 @@
 	<properties>
 		<java.version>1.8</java.version>
         <kotlin.version>1.3.21</kotlin.version>
-        <janusgraph.version>0.3.1</janusgraph.version>
-        <tinkerpop.version>3.3.3</tinkerpop.version>
+        <janusgraph.version>0.2.3</janusgraph.version>
+        <tinkerpop.version>3.2.9</tinkerpop.version>
+        <slf4j.version>1.7.12</slf4j.version>
     </properties>
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
@@ -69,7 +66,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>CnpjFileParsingLibApplicationKt</mainClass>
+                                    <mainClass></mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
@@ -104,16 +101,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>
             <version>${kotlin.version}</version>
@@ -130,31 +117,29 @@
             <version>4.0</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase</artifactId>
-            <version>1.1.2</version>
-            <type>pom</type>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.10</version>
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
 
 
         <!--JANUS GRAPH DEPENDENCIES-->
 
         <dependency>
             <groupId>org.janusgraph</groupId>
-            <artifactId>janusgraph-hbase</artifactId>
-            <version>${janusgraph.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.janusgraph</groupId>
             <artifactId>janusgraph-core</artifactId>
             <version>${janusgraph.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-client</artifactId>
-            <version>1.1.2</version>
         </dependency>
 
 
