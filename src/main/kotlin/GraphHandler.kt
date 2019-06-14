@@ -6,6 +6,7 @@ import org.apache.tinkerpop.gremlin.structure.Graph
 import org.apache.tinkerpop.gremlin.structure.Vertex
 import org.apache.tinkerpop.gremlin.structure.util.GraphFactory
 import org.janusgraph.core.JanusGraph
+import org.janusgraph.core.Multiplicity
 import org.janusgraph.core.schema.JanusGraphManagement
 import java.util.logging.Level
 import java.util.logging.Logger
@@ -26,6 +27,9 @@ class GraphHandler {
         g = graph.traversal()
 
         var mgmt : JanusGraphManagement = GetJanusGraph().openManagement()
+        CreateProperties(mgmt)
+        CreateEdgeLabels(mgmt)
+//        CreateCompositeIndexes(mgmt)
 
         CloseGraph()
     }
@@ -46,18 +50,30 @@ class GraphHandler {
         mgmt.makeEdgeLabel("Reside").make()
         mgmt.makeEdgeLabel("Possui").make()
         mgmt.makeEdgeLabel("Emite").make()
-        mgmt.makeEdgeLabel("Possui").make()
         mgmt.makeEdgeLabel("Atua").make()
     }
 
-    fun CreateCompositeIndexes(mgmt: JanusGraphManagement) {
-        mgmt.buildIndex("Data", Edge::class.java)
-                .addKey(mgmt.getPropertyKey("Possui")).buildCompositeIndex()
+//    fun CreateCompositeIndexes(mgmt: JanusGraphManagement) {
+//        mgmt.buildIndex("Data", Edge::class.java)
+//                .addKey(mgmt.getPropertyKey("Possui")).buildCompositeIndex()
+//
+//        mgmt.buildIndex("%", Edge::class.java)
+//                .addKey(mgmt.getPropertyKey("Possui"))
+//                .addKey(mgmt.getPropertyKey("Emite"))
+//                .addKey(mgmt.getPropertyKey("Atua")).buildCompositeIndex()
+//    }
 
-        mgmt.buildIndex("%", Vertex::class.java)
-                .addKey(mgmt.getPropertyKey("Possui"))
-                .addKey(mgmt.getPropertyKey("Emite"))
-                .addKey(mgmt.getPropertyKey("Atua")).buildCompositeIndex()
+
+    fun CreateProperties(mgmt: JanusGraphManagement) {
+        mgmt.makePropertyKey("Nome").dataType(String::class.java).make()
+        mgmt.makePropertyKey("Sigla").dataType(String::class.java).make()
+        mgmt.makePropertyKey("CPF").dataType(String::class.java).make()
+        mgmt.makePropertyKey("CNPJ").dataType(String::class.java).make()
+        mgmt.makePropertyKey("Data").dataType(String::class.java).make()
+        mgmt.makePropertyKey("Data Emissão").dataType(String::class.java).make()
+        mgmt.makePropertyKey("Número").dataType(String::class.java).make()
+        mgmt.makePropertyKey("Valor").dataType(String::class.java).make()
+        mgmt.makePropertyKey("% Participação").dataType(String::class.java).make()
     }
 }
 
