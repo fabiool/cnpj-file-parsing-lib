@@ -1,13 +1,13 @@
 import org.apache.commons.configuration.Configuration
 import org.apache.commons.configuration.PropertiesConfiguration
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource
-import org.apache.tinkerpop.gremlin.structure.Edge
 import org.apache.tinkerpop.gremlin.structure.Graph
-import org.apache.tinkerpop.gremlin.structure.Vertex
 import org.apache.tinkerpop.gremlin.structure.util.GraphFactory
 import org.janusgraph.core.JanusGraph
-import org.janusgraph.core.Multiplicity
+import org.janusgraph.core.JanusGraphFactory
 import org.janusgraph.core.schema.JanusGraphManagement
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.util.logging.Level
 import java.util.logging.Logger
 
@@ -16,9 +16,12 @@ class GraphHandler {
 
     lateinit var graph : Graph
     lateinit var g : GraphTraversalSource
+
     val LOGGER : Logger = Logger.getLogger(javaClass.toString())
 
-    fun StartGraphProperties(){
+    val dataFile: Path = Paths.get("/media/matheusvargas/801a135b-b0c4-4e76-b21c-70103f96481a/TATIC/CNPJ/DADOS/inputs/test")
+
+    fun startGraphProperties(){
 
         LOGGER.log(Level.INFO, "Starting JanusGraph properties")
 
@@ -26,45 +29,40 @@ class GraphHandler {
         graph = GraphFactory.open(conf)
         g = graph.traversal()
 
-        var mgmt : JanusGraphManagement = GetJanusGraph().openManagement()
-        CreateProperties(mgmt)
-        CreateEdgeLabels(mgmt)
-//        CreateCompositeIndexes(mgmt)
+        var mgmt : JanusGraphManagement = getJanusGraph().openManagement()
+        createProperties(mgmt)
+        createEdgeLabels(mgmt)
 
-        CloseGraph()
+        CnpjFileParser().getParser(g, dataFile).run()
+
+        closeGraph()
     }
 
 
-    fun GetJanusGraph() : JanusGraph{
+    fun getJanusGraph() : JanusGraph{
         return graph as JanusGraph
     }
 
-    fun CloseGraph() {
+    fun closeGraph() {
 
         LOGGER.log(Level.INFO, "Closing graph")
         graph.close()
         g.close()
+
+        if (graph != null) {
+            JanusGraphFactory.drop(getJanusGraph())
+        }
+
     }
 
-    fun CreateEdgeLabels(mgmt : JanusGraphManagement) {
+    fun createEdgeLabels(mgmt : JanusGraphManagement) {
         mgmt.makeEdgeLabel("Reside").make()
         mgmt.makeEdgeLabel("Possui").make()
         mgmt.makeEdgeLabel("Emite").make()
         mgmt.makeEdgeLabel("Atua").make()
     }
 
-//    fun CreateCompositeIndexes(mgmt: JanusGraphManagement) {
-//        mgmt.buildIndex("Data", Edge::class.java)
-//                .addKey(mgmt.getPropertyKey("Possui")).buildCompositeIndex()
-//
-//        mgmt.buildIndex("%", Edge::class.java)
-//                .addKey(mgmt.getPropertyKey("Possui"))
-//                .addKey(mgmt.getPropertyKey("Emite"))
-//                .addKey(mgmt.getPropertyKey("Atua")).buildCompositeIndex()
-//    }
-
-
-    fun CreateProperties(mgmt: JanusGraphManagement) {
+    fun createProperties(mgmt: JanusGraphManagement) {
         mgmt.makePropertyKey("Nome").dataType(String::class.java).make()
         mgmt.makePropertyKey("Sigla").dataType(String::class.java).make()
         mgmt.makePropertyKey("CPF").dataType(String::class.java).make()

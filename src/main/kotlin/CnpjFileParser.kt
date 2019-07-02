@@ -1,5 +1,8 @@
+import CSV.CsvWriter
+import Graph.GraphWriter
 import model.*
 import org.apache.commons.collections4.map.MultiValueMap
+import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource
 import java.io.FileInputStream
 import java.nio.file.Path
 import java.text.ParseException
@@ -16,23 +19,22 @@ class CnpjFileParser constructor() : Runnable {
 
     val BUFF_SIZE = 1202
 
+    lateinit var g : GraphTraversalSource
+
     lateinit var dataFile : Path
 
-    lateinit var outputFolder : Path
 
-
-    constructor(dataFile : Path, outputFolder : Path) : this() {
+    constructor(g: GraphTraversalSource, dataFile : Path) : this() {
         this.dataFile = dataFile
-        this.outputFolder = outputFolder
+        this.g = g
     }
 
-    fun getParser(dataFile : Path, outputFolder : Path) : CnpjFileParser {
+    fun getParser(g : GraphTraversalSource, dataFile : Path) : CnpjFileParser {
 
         if(!dataFile.toFile().exists() || !dataFile.toFile().canRead()) {
             throw  IllegalArgumentException(String.format("Can´t read from %s", dataFile.toAbsolutePath().toString()))
         }
-        outputFolder.toFile().mkdirs()
-        return CnpjFileParser(dataFile, outputFolder)
+        return CnpjFileParser(g, dataFile)
     }
 
     private fun getChunckSizeBytes() : Int { return  RECORD_SIZE_BYTES * CHUNK_RECORDS_COUNT }
@@ -60,21 +62,21 @@ class CnpjFileParser constructor() : Runnable {
 
                 } else if (dataParsed is DadosCadastrais) {
                     LOGGER.log(Level.INFO, "Got a DadosCadastrais record")
-                    CsvWriter().writeDataToCsv(outputFolder, dataParsed)
+                    GraphWriter().insertDataToGraph(this.g, dataParsed)
                     multiMap.put(dataParsed.uf, dataParsed.cnpj)
-
-                } else if (dataParsed is Socio) {
-                    LOGGER.log(Level.INFO, "Got a Socio record")
-                    CsvWriter().writeDataToCsv(outputFolder, dataParsed, multiMap)
-
-                } else if (dataParsed is CnaeSecundaria) {
-                    LOGGER.log(Level.INFO, "Got a CnaeSecundaria record")
-                    CsvWriter().writeDataToCsv(outputFolder, dataParsed, multiMap)
-
-                } else if (dataParsed is Trailler) {
-                    LOGGER.log(Level.INFO, "Got a Trailler record")
-                    CsvWriter().writeDataToCsv(outputFolder, dataParsed)
                 }
+//                } else if (dataParsed is Socio) {
+//                    LOGGER.log(Level.INFO, "Got a Socio record")
+//                    CsvWriter().writeDataToCsv(outputFolder, dataParsed, multiMap)
+//
+//                } else if (dataParsed is CnaeSecundaria) {
+//                    LOGGER.log(Level.INFO, "Got a CnaeSecundaria record")
+//                    CsvWriter().writeDataToCsv(outputFolder, dataParsed, multiMap)
+//
+//                } else if (dataParsed is Trailler) {
+//                    LOGGER.log(Level.INFO, "Got a Trailler record")
+//                    CsvWriter().writeDataToCsv(outputFolder, dataParsed)
+//                }
 
                 readCount = fis.read(buff)
             }

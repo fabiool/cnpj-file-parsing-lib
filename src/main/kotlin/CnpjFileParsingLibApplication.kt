@@ -1,5 +1,5 @@
 fun main() {
-    GraphHandler().StartGraphProperties()
+    GraphHandler().startGraphProperties()
 }
 
 
