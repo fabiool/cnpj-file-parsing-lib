@@ -35,7 +35,6 @@ class GraphWriter {
                 .addE("reside")
                 .from("a")
                 .next()
-
     }
 
     fun insertDataToGraph(g: GraphTraversalSource, dataParsed: Socio) {
@@ -75,10 +74,26 @@ class GraphWriter {
                 .property("%", dataParsed.percentualCapitalSocial)
                 .from("a")
                 .next()
+    }
 
+    fun insertDataToGraph(g: GraphTraversalSource, dataParsed: CnaeSecundaria) {
+        var cnaeVertex = g.V().addV("cnae")
+                .property("cnpj", dataParsed.cnpj)
+                .next()
+
+        val companyVertex = g.V().has("empresa","cnpj", dataParsed.cnpj)
+        if(!companyVertex.hasNext()) {
+            LOGGER.log(Level.SEVERE, "Can not find company with given CNPJ")
+            return
+        }
+
+        g.V(cnaeVertex).`as`("a").V(companyVertex.next())
+                .addE("atua")
+                .from("a")
+                .next()
 
     }
-    fun insertDataToGraph(g: GraphTraversalSource, dataParsed: CnaeSecundaria) {}
+
     fun insertDataToGraph(g: GraphTraversalSource, dataParsed: Trailler) {}
 
 }
