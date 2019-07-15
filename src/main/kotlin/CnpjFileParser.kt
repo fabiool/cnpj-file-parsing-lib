@@ -3,6 +3,7 @@ import Graph.GraphWriter
 import model.*
 import org.apache.commons.collections4.map.MultiValueMap
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource
+import org.apache.tinkerpop.gremlin.structure.io.IoCore
 import java.io.FileInputStream
 import java.nio.file.Path
 import java.text.ParseException
@@ -80,6 +81,9 @@ class CnpjFileParser constructor() : Runnable {
 
                 readCount = fis.read(buff)
             }
+
+//            this.g.graph.io(IoCore.graphson()).writeGraph("cnpj.json")
+//            this.g.graph.io(IoCore.graphml()).writeGraph("cnpj.xml")
 
         } catch (ex : ParseException) {
             LOGGER.log(Level.SEVERE, String.format("Processing file %s aborted due to exception %s!", dataFile.toAbsolutePath().toString(), ex.message), ex)
