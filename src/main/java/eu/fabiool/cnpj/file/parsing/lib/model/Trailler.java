@@ -29,12 +29,12 @@ public class Trailler extends AbstractInfoCnpj {
         
         return new Trailler(
                 new String(copyOfRange(source, 0, 1)).charAt(0),
-                new String(copyOfRange(source, 1, 17)),
+                new String(copyOfRange(source, 1, 17)).trim(),
                 parseInt(copyOfRange(source, 17, 26)),
                 parseInt(copyOfRange(source, 26, 35)),
                 parseInt(copyOfRange(source, 35, 44)),
                 parseLong(copyOfRange(source, 44, 55)),
-                new String(copyOfRange(source, 55, 1199)),
+                new String(copyOfRange(source, 55, 1199)).trim(),
                 new String(copyOfRange(source, 1199, 1200)).charAt(0)
         );
     }

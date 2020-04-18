@@ -26,9 +26,9 @@ public class CnaeSecundaria extends AbstractInfoCnpj {
                 new String(copyOfRange(source, 0, 1)).charAt(0),
                 new String(copyOfRange(source, 1, 2)).charAt(0),
                 new String(copyOfRange(source, 2, 3)).charAt(0),
-                new String(copyOfRange(source, 3, 17)),
-                new String(copyOfRange(source, 17, 488)),
-                new String(copyOfRange(source, 488, 1199)),
+                new String(copyOfRange(source, 3, 17)).trim(),
+                new String(copyOfRange(source, 17, 488)).trim(),
+                new String(copyOfRange(source, 488, 1199)).trim(),
                 new String(copyOfRange(source, 1199, 1200)).charAt(0)
         );
     }

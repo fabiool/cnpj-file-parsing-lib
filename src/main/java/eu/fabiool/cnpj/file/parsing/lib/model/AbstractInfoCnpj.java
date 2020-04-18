@@ -4,7 +4,7 @@ public class AbstractInfoCnpj implements InfoCnpj {
 
 	@Override
 	public String[] getHeaders() {
-		return InfoCnpj.headers(this);
+		return InfoCnpj.headers(this.getClass());
 	}
 
 	@Override

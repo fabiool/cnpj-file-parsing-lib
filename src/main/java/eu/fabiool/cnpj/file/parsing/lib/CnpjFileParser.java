@@ -6,9 +6,7 @@
 package eu.fabiool.cnpj.file.parsing.lib;
 
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.file.Path;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.ZipEntry;
@@ -122,7 +120,7 @@ public class CnpjFileParser implements Runnable {
                 currentFile = zis.getNextEntry();
             }
             
-        } catch (IOException | ParseException ex) {
+        } catch (Exception ex) {
             LOGGER.log(Level.SEVERE, String.format("Processing file %s aborted due to exception %s!", zipFile.toAbsolutePath().toString(), ex.getMessage()), ex);
             throw new RuntimeException(ex);
         }

@@ -48,6 +48,14 @@ public class CSVFormatter implements Formatter {
 	 * 
 	 */
 	@Override
+	public String formatHeader(final Class<? extends InfoCnpj> clazz) {
+		return formatArr(InfoCnpj.headers(clazz));
+	}
+
+	/**
+	 * 
+	 */
+	@Override
 	public String formatHeader(final InfoCnpj info) {
 		return formatArr(info.getHeaders());
 	}

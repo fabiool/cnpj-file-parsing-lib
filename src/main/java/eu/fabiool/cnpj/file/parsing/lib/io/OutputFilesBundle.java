@@ -34,12 +34,7 @@ public class OutputFilesBundle implements Closeable {
 	/**
 	 * 
 	 */
-	private final HashMap<Class<? extends InfoCnpj>, BufferedWriter> bundle = new HashMap<>();
-
-	/**
-	 * 
-	 */
-	private final Path outputDir;
+	private final HashMap<Class<? extends InfoCnpj>, BufferedWriter> bundle;
 	
 	/**
 	 * 
@@ -48,30 +43,66 @@ public class OutputFilesBundle implements Closeable {
 	
 	/**
 	 * @param outputDir
+	 * @throws Exception 
 	 */
-	public OutputFilesBundle(Path outputDir, Formatter formatter) {
-		this.outputDir = outputDir;
+	public OutputFilesBundle(final Path outputDir, final Formatter formatter) throws Exception {
+		this.bundle = open(outputDir, formatter);
 		this.formatter = formatter;
+		
+		writeHeaders(bundle, this.formatter);
 	}
 
 	/**
 	 * 
 	 * @throws Exception
 	 */
-	public void open() throws Exception {
+	private static HashMap<Class<? extends InfoCnpj>, BufferedWriter> open(final Path outputDir, final Formatter formatter) throws Exception {
 
-		if (!this.outputDir.toFile().canWrite()) {
-			throw new IllegalArgumentException(String.format("Can't write to %s", this.outputDir.toFile().getAbsolutePath()));
+		final HashMap<Class<? extends InfoCnpj>, BufferedWriter> bundle = new HashMap<>();
+		
+		if (!outputDir.toFile().canWrite()) {
+			throw new IllegalArgumentException(String.format("Can't write to %s", outputDir.toFile().getAbsolutePath()));
 		}
 		
 		MODEL_CLASSES.stream().forEach(c -> {
 			try {
-				bundle.put(c, openFile(c));
+				bundle.put(c, openFile(c, outputDir));
 			} catch (IOException e) {
 				// swallow exception
 			}
 		});
 		
+		return bundle;
+	}
+
+	/**
+	 * 
+	 * @param clazz
+	 * @param line
+	 * @throws IOException
+	 */
+	private static void writeLine(final BufferedWriter writer, String line) throws IOException {
+		writer.write(String.format("%s%s", line, System.getProperty("line.separator")));
+	}
+	
+	/**
+	 * 
+	 * @throws Exception
+	 */
+	private static void writeHeaders(final HashMap<Class<? extends InfoCnpj>, BufferedWriter> bundle, final Formatter formatter) throws Exception {
+		
+		bundle.keySet().stream().forEach(c -> {
+
+			try {
+				
+				writeLine(bundle.get(c), formatter.formatHeader(c));
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		});
 	}
 	
 	/**
@@ -80,8 +111,8 @@ public class OutputFilesBundle implements Closeable {
 	 * @return
 	 * @throws IOException
 	 */
-	private BufferedWriter openFile(Class<? extends InfoCnpj> clazz) throws IOException {
-		final Path fileName = Paths.get(this.outputDir.toFile().getAbsolutePath(), String.format("%s.txt", clazz.getSimpleName()));
+	private static BufferedWriter openFile(Class<? extends InfoCnpj> clazz, final Path outputDir) throws IOException {
+		final Path fileName = Paths.get(outputDir.toFile().getAbsolutePath(), String.format("%s.txt", clazz.getSimpleName()));
 		return new BufferedWriter(new FileWriter(fileName.toFile()));		
 	}
 	
@@ -100,7 +131,7 @@ public class OutputFilesBundle implements Closeable {
 			});
 		}
 	}
-
+	
 	/**
 	 * 
 	 * @param line
@@ -108,10 +139,10 @@ public class OutputFilesBundle implements Closeable {
 	 */
 	public void write(final InfoCnpj line) throws IOException {
 
-		if (bundle.containsKey(line.getClass())) {
-			bundle.get(line.getClass()).write(String.format("%s%s", formatter.format(line), System.getProperty("line.separator")));
+		if (!bundle.containsKey(line.getClass())) {
+			throw new IllegalArgumentException(String.format("Unsupported class %s", line.getClass().getSimpleName()));
 		}
 
-		throw new IllegalArgumentException(String.format("Unsupported class %s", line.getClass().getSimpleName()));
+		bundle.get(line.getClass()).write(String.format("%s%s", formatter.format(line), System.getProperty("line.separator")));
 	}
 }

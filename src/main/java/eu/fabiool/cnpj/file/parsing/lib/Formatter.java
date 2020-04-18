@@ -23,4 +23,11 @@ public interface Formatter {
 	 */
 	String format(final InfoCnpj info);
 
+	/**
+	 * 
+	 * @param clazz
+	 * @return
+	 */
+	String formatHeader(Class<? extends InfoCnpj> clazz);
+
 }

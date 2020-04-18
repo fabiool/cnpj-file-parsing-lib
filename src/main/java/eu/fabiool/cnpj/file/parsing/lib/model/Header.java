@@ -30,12 +30,12 @@ public class Header extends AbstractInfoCnpj {
 
     public static Header parse(final byte[] source) throws ParseException {
         return new Header(
-                new String(copyOfRange(source, 0, 1)).charAt(0), // tipoDoRegistro
-                new String(copyOfRange(source, 1, 17)), // filler01, 
-                new String(copyOfRange(source, 17, 28)), // nomeDoArquivo, 
-                parseDate(copyOfRange(source, 28, 36)), // dataDeGravacao, 
-                parseInt(copyOfRange(source, 36, 44)), // numeroDaRemessa, 
-                new String(copyOfRange(source, 44, 1199)), // filler02, 
+                new String(copyOfRange(source, 0, 1)).charAt(0),        // tipoDoRegistro
+                new String(copyOfRange(source, 1, 17)).trim(),          // filler01, 
+                new String(copyOfRange(source, 17, 28)),                // nomeDoArquivo, 
+                parseDate(copyOfRange(source, 28, 36)),                 // dataDeGravacao, 
+                parseInt(copyOfRange(source, 36, 44)),                  // numeroDaRemessa, 
+                new String(copyOfRange(source, 44, 1199)).trim(),       // filler02, 
                 new String(copyOfRange(source, 1199, 1200)).charAt(0)); // fimDeRegistro);
     }
 
