@@ -12,7 +12,7 @@ import static java.util.Arrays.copyOfRange;
  *
  * @author Fabio
  */
-public class Socio implements InfoCnpj {
+public class Socio extends AbstractInfoCnpj {
 
     private final char tipoDoRegistro;
     private final char indicadorFullDiario;

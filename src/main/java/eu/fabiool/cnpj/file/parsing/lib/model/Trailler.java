@@ -14,7 +14,7 @@ import static java.util.Arrays.copyOfRange;
  *
  * @author Fabio
  */
-public class Trailler implements InfoCnpj {
+public class Trailler extends AbstractInfoCnpj {
     
     private final char tipoDoRegistro;
     private final String filler01;

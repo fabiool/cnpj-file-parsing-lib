@@ -11,7 +11,7 @@ import static java.util.Arrays.copyOfRange;
  *
  * @author Fabio
  */
-public class CnaeSecundaria implements InfoCnpj {
+public class CnaeSecundaria extends AbstractInfoCnpj {
 
     private final char tipoDoRegistro;
     private final char indicadorFullDiario;

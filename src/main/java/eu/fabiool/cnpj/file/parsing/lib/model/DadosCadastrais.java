@@ -16,7 +16,7 @@ import static java.util.Arrays.copyOfRange;
  *
  * @author Fabio
  */
-public class DadosCadastrais implements InfoCnpj {
+public class DadosCadastrais extends AbstractInfoCnpj {
 
     private final char tipoDoRegistro;
     private final char indicadorFullDiario;

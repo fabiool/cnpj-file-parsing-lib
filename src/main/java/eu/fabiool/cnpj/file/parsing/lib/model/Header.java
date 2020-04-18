@@ -18,7 +18,7 @@ import static java.util.Arrays.copyOfRange;
  *
  * @author Fabio
  */
-public class Header implements InfoCnpj {
+public class Header extends AbstractInfoCnpj {
 
     private final char tipoDoRegistro;
     private final String filler01;
