@@ -11,19 +11,14 @@ public class IOUtils {
 	
 	/**
 	 * 
-	 */
-	private final static String FILENAME_REGEX = "COMPONENT_(\\d\\d).txt";
-
-	/**
-	 * 
 	 * @param start
 	 * @param visitor
 	 * @return
 	 * @throws IOException 
 	 */
-	public static HashMap<Integer, List<String>> loadLists(Path start) throws IOException {
+	public static HashMap<Integer, List<String>> loadLists(Path start, Pattern pattern) throws IOException {
 
-		final ListsLoader listsLoader = ListsLoader.newInstance(Pattern.compile(FILENAME_REGEX));
+		final ListsLoader listsLoader = ListsLoader.newInstance(pattern);
 		
 		Files.walkFileTree(start, listsLoader);
 		

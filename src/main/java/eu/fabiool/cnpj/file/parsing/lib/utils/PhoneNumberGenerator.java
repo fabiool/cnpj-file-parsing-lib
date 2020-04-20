@@ -1,5 +1,6 @@
 package eu.fabiool.cnpj.file.parsing.lib.utils;
 
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,12 +11,12 @@ import java.util.Random;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class NameGenerator {
+public class PhoneNumberGenerator {
 	
 	/**
 	 * 
 	 */
-	private final static String FILENAME_REGEX = "COMPONENT_(\\d\\d).txt";
+	private final static String FILENAME_REGEX = "telefones.txt";
 
 	/**
 	 * 
@@ -31,7 +32,7 @@ public class NameGenerator {
 	 * 
 	 * @param lists
 	 */
-	public NameGenerator(HashMap<Integer, List<String>> seeds) {
+	public PhoneNumberGenerator(HashMap<Integer, List<String>> seeds) {
 		this.seeds = seeds;
 	}
 
@@ -41,12 +42,8 @@ public class NameGenerator {
 	 * @return
 	 * @throws IOException
 	 */
-	public static NameGenerator newInstance(final Path seedStore) throws IOException {
-		
-		/**
-		 * 
-		 */
-		return new NameGenerator(IOUtils.loadLists(seedStore, Pattern.compile(FILENAME_REGEX))); 
+	public static PhoneNumberGenerator newInstance(final Path seedStore) throws IOException {
+		return new PhoneNumberGenerator(IOUtils.loadLists(seedStore, Pattern.compile(FILENAME_REGEX))); 
 	}
 
 	/**
@@ -55,27 +52,8 @@ public class NameGenerator {
 	 * @return
 	 */
 	public String generate(final Random rand) {
-		
-		final int c = getComponents(rand);
-		
-		final String[] name = new String[c];
-		
-		for(int i = 0; i < c; i++) {
-			
-			int index = rand.nextInt(seeds.get(i+1).size());
-			name[i] = seeds.get(i+1).get(index);
-		}
-	
-		return Arrays.asList(name).stream().collect(Collectors.joining(BLANK_SPACE));
-	}
-
-	/**
-	 * 
-	 * @param rand
-	 * @return
-	 */
-	private int getComponents(Random rand) {
-		return rand.nextInt(3) + 2;  
+		int index = rand.nextInt(seeds.get(0).size());
+		return seeds.get(0).get(index);
 	}
 
 	/**
@@ -89,7 +67,7 @@ public class NameGenerator {
 		
 		int count = Integer.parseInt(args[1]);
 
-		final NameGenerator g = NameGenerator.newInstance(seedStore);
+		final PhoneNumberGenerator g = PhoneNumberGenerator.newInstance(seedStore);
 		
 		final Random rand = new Random(System.currentTimeMillis());
 

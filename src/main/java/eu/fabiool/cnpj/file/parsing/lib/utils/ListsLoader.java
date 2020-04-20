@@ -61,8 +61,18 @@ public class ListsLoader implements FileVisitor<Path> {
 
 		if (m.matches()) {
 			
-			lists.put(Integer.parseInt(m.group(1)), loadFile(file));
+			Integer key = null;
+			
+			if (m.groupCount() > 0) {
+			
+				key = Integer.parseInt(m.group(1));
+			
+			} else {
 
+				key = new Integer(0);
+			}
+			
+			lists.put(key, loadFile(file));
 		}
 
 		return FileVisitResult.CONTINUE;
